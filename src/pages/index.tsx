@@ -6,6 +6,7 @@ import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
   const hello = api.example.hello.useQuery({ text: 2 });
+  const product = api.product.getProducts.useQuery();
 
   return (
     <>
@@ -46,6 +47,23 @@ const Home: NextPage = () => {
           <p className="text-2xl text-white">
             {hello.data ? hello.data.greeting : "Loading tRPC query..."}
           </p>
+          <div className="text-2xl text-white">
+            {/* {product.data ? product.data.allProducts : "Loading tRPC query..."} */}
+            {product.data?.allProducts?.map((product, index) => {
+              return (
+                <div
+                  key={index}
+                  className="mt-2 flex flex-col items-center justify-center border"
+                >
+                  <p>{product.id}</p>
+                  <p>{product.name}</p>
+                  <p>{product.description}</p>
+                  <p>{product.price}</p>
+                  <p>{product.category}</p>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </main>
     </>

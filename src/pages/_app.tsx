@@ -8,6 +8,7 @@ import {
 import { api } from "~/utils/api";
 
 import { type AppProps } from "next/app";
+import Navbar from "~/components/navbar";
 // import Navbar from "~/components/navbar";
 
 // const MyApp: AppType = ({ Component, pageProps }) => {
@@ -28,7 +29,7 @@ function MyApp({
       supabaseClient={supabaseClient}
       initialSession={pageProps.initialSession}
     >
-      {/* <Navbar /> */}
+      <Navbar />
       <Component {...pageProps} />
     </SessionContextProvider>
   );
