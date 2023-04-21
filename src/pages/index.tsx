@@ -58,7 +58,7 @@ const Home: NextPage = () => {
                   <p>{product.category}</p>
                   <div className="relative h-[300px] md:h-[400px] md:w-[600px] xl:h-[500px] xl:w-[650px]">
                     <Image
-                      src={product.image_url}
+                      src={product.image_url as string}
                       fill
                       style={{ objectFit: "cover" }}
                       alt={"overlay"}
