@@ -1,11 +1,10 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-
+import Image from "next/image";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: 2 });
   const product = api.product.getProducts.useQuery();
 
   return (
@@ -44,9 +43,6 @@ const Home: NextPage = () => {
               </div>
             </Link>
           </div>
-          <p className="text-2xl text-white">
-            {hello.data ? hello.data.greeting : "Loading tRPC query..."}
-          </p>
           <div className="text-2xl text-white">
             {/* {product.data ? product.data.allProducts : "Loading tRPC query..."} */}
             {product.data?.allProducts?.map((product, index) => {
@@ -60,6 +56,14 @@ const Home: NextPage = () => {
                   <p>{product.description}</p>
                   <p>{product.price}</p>
                   <p>{product.category}</p>
+                  <div className="relative h-[300px] md:h-[400px] md:w-[600px] xl:h-[500px] xl:w-[650px]">
+                    <Image
+                      src={product.image_url}
+                      fill
+                      style={{ objectFit: "cover" }}
+                      alt={"overlay"}
+                    />
+                  </div>
                 </div>
               );
             })}
