@@ -12,7 +12,12 @@ export const productRouter = createTRPCRouter({
           .select("*")
           .limit(10)
           .order("id", { ascending: true });
-        return { allProducts: data };
+
+        if (error) throw error;
+
+        if (data) {
+          return { allProducts: data };
+        }
       } catch (error: any) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         console.log(error.message);
