@@ -5,7 +5,7 @@ import { supabase } from "../../../utils/supabase-client";
 export const productRouter = createTRPCRouter({
   getProducts: publicProcedure
     // .input(z.object({ text: z.number() }))
-    .query(async () => {
+    .query(async ({ ctx }) => {
       try {
         const { data, error } = await supabase
           .from("products")
@@ -16,7 +16,10 @@ export const productRouter = createTRPCRouter({
         if (error) throw error;
 
         if (data) {
-          return { allProducts: data };
+          return {
+            allProducts: data,
+            session: ctx.session,
+          };
         }
       } catch (error: any) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

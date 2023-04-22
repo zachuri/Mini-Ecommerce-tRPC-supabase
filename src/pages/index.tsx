@@ -6,7 +6,6 @@ import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
   const product = api.product.getProducts.useQuery();
-
   return (
     <>
       <Head>
@@ -43,6 +42,7 @@ const Home: NextPage = () => {
               </div>
             </Link>
           </div>
+          <p>{product.data?.session?.id}</p>
           <div className="text-2xl text-white">
             {product.data?.allProducts?.map((product, index) => {
               return (
