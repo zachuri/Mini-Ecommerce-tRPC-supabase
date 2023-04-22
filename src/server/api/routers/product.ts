@@ -39,41 +39,42 @@ export const productRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const { data: user } = await ctx.supabaseClient
-        .from("profile")
+        .from("profiles")
         .select("role")
-        .eq("user_id", ctx.session?.user.id)
+        .eq("id", ctx.session?.user.id)
         .limit(1)
         .single();
 
-      // if (user) {
-      try {
-        const { data, error } = await ctx.supabaseClient
-          .from("products")
-          .insert([
-            {
-              inventory: input.inventory,
-              name: input.name,
-              description: input.description,
-              price: input.price,
-              category: input.category,
-              image_url: input.image_url,
-            },
-          ])
-          .single();
-        if (error) throw error;
-        return data;
-      } catch (error: any) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        console.log(error);
+      console.log(user?.role);
+
+      if (user?.role == "admin") {
+        try {
+          const { data, error } = await ctx.supabaseClient
+            .from("products")
+            .insert([
+              {
+                inventory: input.inventory,
+                name: input.name,
+                description: input.description,
+                price: input.price,
+                category: input.category,
+                image_url: input.image_url,
+              },
+            ])
+            .single();
+          if (error) throw error;
+          return data;
+        } catch (error: any) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          console.log(error);
+        }
+      } else {
+        console.error("MUST BE AN ADMIN");
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: `User must be an admin to add to products table`,
+        });
       }
-      // }
-      // else {
-      //   console.error("MUST BE AN ADMIN");
-      //   throw new TRPCError({
-      //     code: "INTERNAL_SERVER_ERROR",
-      //     message: `User must be an admin to add to products table`,
-      //   });
-      // }
     }),
   addUserPosts: publicProcedure
     .input(
