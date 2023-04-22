@@ -44,7 +44,6 @@ const Home: NextPage = () => {
             </Link>
           </div>
           <div className="text-2xl text-white">
-            {/* {product.data ? product.data.allProducts : "Loading tRPC query..."} */}
             {product.data?.allProducts?.map((product, index) => {
               return (
                 <div
@@ -58,7 +57,8 @@ const Home: NextPage = () => {
                   <p>{product.category}</p>
                   <div className="relative h-[300px] md:h-[400px] md:w-[600px] xl:h-[500px] xl:w-[650px]">
                     <Image
-                      src={product.image_url as string}
+                      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                      src={product.image_url}
                       fill
                       style={{ objectFit: "cover" }}
                       alt={"overlay"}
