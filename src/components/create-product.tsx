@@ -13,9 +13,12 @@ interface ProductProps {
 }
 
 const CreateProduct = () => {
+  const ctx = api.useContext();
+
   const { mutate } = api.product.addProducts.useMutation({
     onSuccess: () => {
       setProductData(initialState);
+      void ctx.product.getProducts.invalidate();
     },
     onError: (e) => {
       const errorMessage = e.data?.zodError?.fieldErrors.content;
