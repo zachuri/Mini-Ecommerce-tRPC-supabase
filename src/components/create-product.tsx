@@ -14,6 +14,8 @@ interface ProductProps {
 
 const CreateProduct = () => {
   const ctx = api.useContext();
+  const getUser = api.user.account.useQuery();
+  const user = useUser();
 
   const { mutate } = api.product.addProducts.useMutation({
     onSuccess: () => {
@@ -29,8 +31,6 @@ const CreateProduct = () => {
       }
     },
   });
-
-  const user = useUser();
 
   const initialState = {
     inventory: 0,
@@ -56,72 +56,78 @@ const CreateProduct = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center">
-        <div className="flex flex-col justify-center">
-          <h1 className="text-4xl">Inventory</h1>
-          <input
-            name="inventory"
-            className="rounded-xl border p-5"
-            placeholder="Inventory"
-            onChange={handleChange}
-            type="number"
-          />
-          <h1 className="text-4xl">Name</h1>
-          <input
-            name="name"
-            className="rounded-xl border p-5"
-            placeholder="Name"
-            onChange={handleChange}
-          />
-          <h1 className="text-4xl">Description</h1>
-          <textarea
-            name="description"
-            className="rounded-xl border p-5"
-            placeholder="Description"
-            onChange={void handleChange}
-          />
-          <h1 className="text-4xl">Price</h1>
-          <input
-            name="price"
-            className="rounded-xl border p-5"
-            placeholder="Price"
-            onChange={handleChange}
-            type="number"
-          />
-          <h1 className="text-4xl">Category</h1>
-          <input
-            name="category"
-            className="rounded-xl border p-5"
-            placeholder="Category"
-            onChange={handleChange}
-          />
-          <h1 className="text-4xl">Image URL</h1>
-          <input
-            name="image_url"
-            className="rounded-xl border p-5"
-            placeholder="Image URL"
-            onChange={handleChange}
-          />
-          <p>Posting as {user?.email}</p>
-          <button
-            className="rounded-xl border bg-blue-600 p-2 text-white"
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
-            onClick={() => {
-              // mutate({ title: productData.title, content: productData.content });
-              mutate({
-                inventory: productData.inventory,
-                name: productData.name,
-                description: productData.description,
-                price: productData.price,
-                category: productData.category,
-                image_url: productData.image_url,
-              });
-            }}
-          >
-            Create Post
-          </button>
-        </div>
-      </div>
+      {getUser.data?.userData.role == "admin" && user ? (
+        <>
+          <div className="flex items-center justify-center">
+            <div className="flex flex-col justify-center">
+              <h1 className="text-4xl">Inventory</h1>
+              <input
+                name="inventory"
+                className="rounded-xl border p-5"
+                placeholder="Inventory"
+                onChange={handleChange}
+                type="number"
+              />
+              <h1 className="text-4xl">Name</h1>
+              <input
+                name="name"
+                className="rounded-xl border p-5"
+                placeholder="Name"
+                onChange={handleChange}
+              />
+              <h1 className="text-4xl">Description</h1>
+              <textarea
+                name="description"
+                className="rounded-xl border p-5"
+                placeholder="Description"
+                onChange={void handleChange}
+              />
+              <h1 className="text-4xl">Price</h1>
+              <input
+                name="price"
+                className="rounded-xl border p-5"
+                placeholder="Price"
+                onChange={handleChange}
+                type="number"
+              />
+              <h1 className="text-4xl">Category</h1>
+              <input
+                name="category"
+                className="rounded-xl border p-5"
+                placeholder="Category"
+                onChange={handleChange}
+              />
+              <h1 className="text-4xl">Image URL</h1>
+              <input
+                name="image_url"
+                className="rounded-xl border p-5"
+                placeholder="Image URL"
+                onChange={handleChange}
+              />
+              <p>Posting as {user?.email}</p>
+              <button
+                className="rounded-xl border bg-blue-600 p-2 text-white"
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                onClick={() => {
+                  // mutate({ title: productData.title, content: productData.content });
+                  mutate({
+                    inventory: productData.inventory,
+                    name: productData.name,
+                    description: productData.description,
+                    price: productData.price,
+                    category: productData.category,
+                    image_url: productData.image_url,
+                  });
+                }}
+              >
+                Create Post
+              </button>
+            </div>
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 };

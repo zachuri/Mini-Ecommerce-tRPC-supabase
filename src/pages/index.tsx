@@ -10,8 +10,6 @@ import CreateUserPost from "~/components/create-user-posts";
 
 const Home: NextPage = () => {
   const getProducts = api.product.getProducts.useQuery();
-  const getUser = api.user.account.useQuery();
-  const user = useUser();
 
   return (
     <>
@@ -21,16 +19,10 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        {getUser.data?.userData.role == "admin" && user ? (
-          <>
-            <div>
-              {/* <CreateUserPost /> */}
-              <CreateProduct />
-            </div>
-          </>
-        ) : (
-          <></>
-        )}
+        <div>
+          {/* <CreateUserPost /> */}
+          <CreateProduct />
+        </div>
 
         <div className="text-2xl text-white">
           {getProducts.data?.allProducts?.map((product, index) => {
