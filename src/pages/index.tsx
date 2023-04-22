@@ -4,12 +4,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { api } from "~/utils/api";
 import { useUser } from "@supabase/auth-helpers-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateProduct from "~/components/create-product";
 import CreateUserPost from "~/components/create-user-posts";
 
 const Home: NextPage = () => {
   const getProducts = api.product.getProducts.useQuery();
+  const getUser = api.user.account.useQuery();
+
+  useEffect(() => {
+    getProducts;
+    getUser;
+  }, []);
+
 
   return (
     <>
@@ -19,10 +26,16 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <div>
-          {/* <CreateUserPost /> */}
-          <CreateProduct />
-        </div>
+        {getUser.data?.userData.role == "admin" ? (
+          <>
+            <div>
+              {/* <CreateUserPost /> */}
+              <CreateProduct />
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
 
         <div className="text-2xl text-white">
           {getProducts.data?.allProducts?.map((product, index) => {
