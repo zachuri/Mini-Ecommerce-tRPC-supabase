@@ -9,7 +9,7 @@ export const userRouter = createTRPCRouter({
       try {
         const { data, error } = await ctx.supabaseClient
           .from("profiles")
-          .select(`username, website, full_name, avatar_url, website, role`)
+          .select("username, website, full_name, avatar_url, website, role")
           .eq("id", ctx.session?.user.id)
           .limit(1)
           .single();
