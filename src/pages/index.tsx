@@ -6,6 +6,7 @@ import { api } from "~/utils/api";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 import CreateProduct from "~/components/create-product";
+import CreateUserPost from "~/components/create-user-posts";
 
 const Home: NextPage = () => {
   const getProducts = api.product.getProducts.useQuery();
@@ -19,6 +20,7 @@ const Home: NextPage = () => {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         <div>
+          {/* <CreateUserPost /> */}
           <CreateProduct />
         </div>
 

@@ -3,10 +3,19 @@ import React, { useState } from "react";
 import { api } from "~/utils/api";
 import { toast } from "react-hot-toast";
 
+interface ProductProps {
+  inventory: number;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  image_url: string;
+}
+
 const CreateProduct = () => {
   const { mutate } = api.product.addProducts.useMutation({
     onSuccess: () => {
-      setPostData(initialState);
+      setProductData(initialState);
     },
     onError: (e) => {
       const errorMessage = e.data?.zodError?.fieldErrors.content;
@@ -21,35 +30,73 @@ const CreateProduct = () => {
   const user = useUser();
 
   const initialState = {
-    title: "",
-    content: "",
+    inventory: 0,
+    name: "",
+    description: "",
+    price: 0.0,
+    category: "",
+    image_url: "",
   };
 
-  const [postData, setPostData] = useState(initialState);
+  const [productData, setProductData] = useState<ProductProps>(initialState);
 
   // Handle change any to make it any input type
-  const handleChange = (e: any) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-    setPostData({ ...postData, [e.target.name]: e.target.value });
-    console.log(postData);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type } = e.target;
+
+    const newValue = type === "number" ? Number(value) : value;
+
+    setProductData((prevState) => ({ ...prevState, [name]: newValue }));
+
+    console.log(productData);
   };
 
   return (
     <>
       <div className="flex items-center justify-center">
         <div className="flex flex-col justify-center">
-          <h1 className="text-4xl">Title</h1>
+          <h1 className="text-4xl">Inventory</h1>
           <input
-            name="title"
+            name="inventory"
             className="rounded-xl border p-5"
-            placeholder="Title"
+            placeholder="Inventory"
+            onChange={handleChange}
+            type="number"
+          />
+          <h1 className="text-4xl">Name</h1>
+          <input
+            name="name"
+            className="rounded-xl border p-5"
+            placeholder="Name"
             onChange={handleChange}
           />
-          <h1 className="text-4xl">Content</h1>
+          <h1 className="text-4xl">Description</h1>
           <textarea
-            name="content"
+            name="description"
             className="rounded-xl border p-5"
-            placeholder="Content"
+            placeholder="Description"
+            onChange={void handleChange}
+          />
+          <h1 className="text-4xl">Price</h1>
+          <input
+            name="price"
+            className="rounded-xl border p-5"
+            placeholder="Price"
+            onChange={handleChange}
+            type="number"
+          />
+          <h1 className="text-4xl">Category</h1>
+          <input
+            name="category"
+            className="rounded-xl border p-5"
+            placeholder="Category"
+            onChange={handleChange}
+          />
+          <h1 className="text-4xl">Image URL</h1>
+          <input
+            name="image_url"
+            className="rounded-xl border p-5"
+            placeholder="Image URL"
             onChange={handleChange}
           />
           <p>Posting as {user?.email}</p>
@@ -57,10 +104,14 @@ const CreateProduct = () => {
             className="rounded-xl border bg-blue-600 p-2 text-white"
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={() => {
-              // mutate({ title: postData.title, content: postData.content });
+              // mutate({ title: productData.title, content: productData.content });
               mutate({
-                title: postData.title,
-                content: postData.content,
+                inventory: productData.inventory,
+                name: productData.name,
+                description: productData.description,
+                price: productData.price,
+                category: productData.category,
+                image_url: productData.image_url,
               });
             }}
           >
