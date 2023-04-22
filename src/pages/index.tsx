@@ -13,11 +13,6 @@ const Home: NextPage = () => {
   const getUser = api.user.account.useQuery();
   const user = useUser();
 
-  useEffect(() => {
-    getProducts;
-    getUser;
-  }, []);
-
   return (
     <>
       <Head>
