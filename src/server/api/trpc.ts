@@ -31,10 +31,10 @@ export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
   });
 
   const {
-    data: { user },
-  } = await supabaseServerClient.auth.getUser();
+    data: { session },
+  } = await supabaseServerClient.auth.getSession();
 
-  return { session: user };
+  return { session: session, supabaseClient: supabaseServerClient };
 };
 
 /**
