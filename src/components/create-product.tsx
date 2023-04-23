@@ -44,7 +44,11 @@ const CreateProduct = () => {
   const [productData, setProductData] = useState<ProductProps>(initialState);
 
   // Handle change any to make it any input type
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const { name, value, type } = e.target;
 
     const newValue = type === "number" ? Number(value) : value;
@@ -80,7 +84,7 @@ const CreateProduct = () => {
                 name="description"
                 className="rounded-xl border p-5"
                 placeholder="Description"
-                onChange={void handleChange}
+                onChange={handleChange}
               />
               <h1 className="text-4xl">Price</h1>
               <input
