@@ -6,12 +6,12 @@ const FetchProduct = () => {
   const getProducts = api.product.getProducts.useQuery();
 
   return (
-    <div className="text-2xl text-white">
+    <div className="flex flex-col gap-5 text-2xl">
       {getProducts.data?.allProducts?.map((product, index) => {
         return (
           <div
             key={index}
-            className="mt-2 flex flex-row items-center justify-between border"
+            className="flex flex-row items-center justify-between border border-black"
           >
             <div>
               <p>{product.name}</p>
@@ -19,7 +19,7 @@ const FetchProduct = () => {
               <p>{product.price}</p>
               <p>{product.category}</p>
             </div>
-            <div className="relative h-[300px] md:h-[200px] md:w-[400px] ">
+            <div className="relative h-[200px] w-[200px]">
               <Image
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 src={product.image_url}
