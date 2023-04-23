@@ -8,46 +8,24 @@ const Navbar = () => {
   const user = useUser();
   const router = useRouter();
 
-  // useEffect(() => {
-  //   const checkSession = async () => {
-  //     const { data } = await supabaseClient.auth.getSession();
-  //     if (data.session) {
-  //       void router.back();
-  //     }
-  //   };
-
-  //   void checkSession();
-  // });
-
-  // supabaseClient.auth.onAuthStateChange((event) => {
-  //   if (event == "SIGNED_OUT") {
-  //     void router.push("/");
-  //   }
-  // });
-
   return (
     <>
-      <div className="border border-black p-5 ">
-        <div className="grid grid-cols-3">
-          <div className="flex items-center justify-center border">
+      <div className="fixed top-0 z-[100] h-16 w-full border-b bg-opacity-20 drop-shadow-lg backdrop-blur-lg md:h-20">
+        <div className="grid h-full grid-cols-4">
+          <div className="flex items-center justify-center">
             <Link href={"/"}>Website</Link>
           </div>
-          <div className="flex items-center justify-center gap-2 border">
-            <a href={"/"}>Main Page</a>
-            <a href={"/createArticle"}>Create Article</a>
-            <a href={"/account"}>Account</a>
-          </div>
-          <div className="flex items-center justify-center border">
+          <div className="col-span-2 flex items-center justify-center gap-2"></div>
+          <div className="flex items-center justify-center">
             {!user ? (
               <Link href={"/auth"}>
-                <div className="rounded-xl border p-2">Login</div>
+                <div className="rounded-xl p-2">Login</div>
               </Link>
             ) : (
               <div className="flex flex-col items-center justify-center">
-                <div>Hey, {user.email}</div>
                 <div>
                   <button
-                    className="rounded-xl border p-2"
+                    className="rounded-xl p-2"
                     onClick={() => {
                       void supabaseClient.auth.signOut();
                       void router.push("/");
